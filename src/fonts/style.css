@@ -1,0 +1,22 @@
+@font-face {
+  font-family: "Styrene A Web";
+  src: local("Styrene A Web Regular"), local("Styrene-A-Web-Regular"), url("StyreneAWeb-Regular.woff2") format("woff2"),
+    url("StyreneAWeb-Regular.woff") format("woff"), url("StyreneAWeb-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Styrene A Web";
+  src: local("Styrene A Web Medium"), local("Styrene-A-Web-Medium"), url("StyreneAWeb-Medium.woff2") format("woff2"),
+    url("StyreneAWeb-Medium.woff") format("woff"), url("StyreneAWeb-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Jenriv";
+  src: local("Styrene A Web Medium"), local("Styrene-A-Web-Medium"),
+    url("Jenriv-Regular_DONATIONWARE.woff") format("woff");
+  font-weight: 400;
+  font-style: regular;
+}
