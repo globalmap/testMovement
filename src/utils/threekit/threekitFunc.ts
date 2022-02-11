@@ -10,16 +10,16 @@ export const getObjectByName = (name: string) => {
 	return window.player.scene.get({from: window.player.instanceId, name})
 }
 
-function getTranslation(objectName: string) {
+function getTranslation(object: {name?: string, id?: string}) {
   return window.player.scene.get({
     from: window.player.instanceId,
-    name: objectName,
+    ...object,
     plug: "Transform",
     property: "translation",
   });
 }
 
-export function setTranslationXYZ(object: string, { x, y, z }: {x?: number, y?: number, z?: number}) {
+export function setTranslationXYZ(object: {name?: string, id?: string}, { x, y, z }: {x?: number, y?: number, z?: number}) {
   const currentTranslation = getTranslation(object);
 	if(currentTranslation) {
 		const XTranslation = x ? x : currentTranslation.x;
@@ -28,7 +28,7 @@ export function setTranslationXYZ(object: string, { x, y, z }: {x?: number, y?: 
 		window.player.scene.set(
 			{
 				from: window.player.instanceId,
-				name: object,
+				...object,
 				plug: "Transform",
 				property: "translation",
 			},
@@ -37,14 +37,15 @@ export function setTranslationXYZ(object: string, { x, y, z }: {x?: number, y?: 
 	}
 }
 
-// export const get = (id: string) => {
-// 	const {plugs: {Null}} = window.player.scene.get({from: window.player.instanceId, id})//.find(((e: any)=> e.name === "Position"))
+export const getMetadata = (id: string) => {
+	const {plugs: {Null}} = window.player.scene.get({from: window.player.instanceId, id})//.find(((e: any)=> e.name === "Position"))
+	console.log(Null)
 
-// 	if(Null) {
-// 		const {configurator: {metadata}} = Null[0]
-// 		return JSON.parse(metadata)
-// 	}
-// }
+	if(Null) {
+		const {configurator: {metadata}} = Null[0]
+		return JSON.parse(metadata)
+	}
+}
 
 interface setConfigurationT {
 	data: {
@@ -57,8 +58,8 @@ export const setConfiguration = ({data, attr}: setConfigurationT) => {
 	return window.configurator.setConfiguration({[attr]: data})
 }
 
-export const getBoundingBox = (id: string) => {
-	const object = window.player.scene.get({from: window.player.instanceId, id, evalNode: true})
+export const getBoundingBox = (data: {id?: string, name?: string}) => {
+	const object = window.player.scene.get({from: window.player.instanceId, ...data, evalNode: true})
 
 	if(object) {
 		return object.getBoundingBox()

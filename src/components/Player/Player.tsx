@@ -38,7 +38,7 @@ export const Player = () => {
           authToken: THREEKIT_PARAMS['authToken'],
           el: playerEl.current,
           assetId: THREEKIT_PARAMS['assetId'],
-					showConfigurator: true,
+					// showConfigurator: true,
           
           display: "webgl"
         })
@@ -48,7 +48,7 @@ export const Player = () => {
           // await window.player.when('loaded');
 
           window.configurator = await window.player.getConfigurator();
-          window.configurator.setConfiguration({"add_cube_OH": [
+          window.configurator.setConfiguration({"Left Objects": [
             {
               assetId: "40908f80-f3cb-473b-a771-ef78668ae313",
               configuration: "",

@@ -1,4 +1,10 @@
-import { getAttrs, getBoundingBox, getObjectByName, setConfiguration, setTranslationXYZ } from "./threekitFunc";
+import {
+  getAttrs,
+  getBoundingBox,
+  getObjectByName,
+  setConfiguration,
+  setTranslationXYZ,
+} from "./threekitFunc";
 export const movementTool = () => {
   let startPoint = 0;
   return {
@@ -38,31 +44,53 @@ export const clickTools = () => {
 
         for (let node of hierarchy) {
           if (node.name.includes("Plus")) {
-            console.log(node);
-            // window.player.selectionSet.add({ name: node.nodeId });
-            const attr =
-              window.player.enableApi("player").configurator.configuration[
-                "add_cube_OH"
-              ];
-            
+            const { position } = window.points.find(
+              (e: any) => e.id === node.nodeId
+            );
 
-            const position = getBoundingBox(node.nodeId);
+            // window.player.selectionSet.add({ name: node.nodeId });
+            const attrs =
+              window.player.enableApi("player").configurator.configuration[
+                `${position} Objects`
+                // `Left Objects`
+              ];
+              console.log("node", {node, position: `${position} Objects`, attrs});
+            
+            const boundingBox = getBoundingBox({ id: node.nodeId });
             const newAttr = await setConfiguration({
               data: [
-                ...attr,
+                ...attrs,
                 {
                   assetId: "29ac94f0-e0b2-46ff-8fb3-178c772ac788",
                   configuration: "",
                   type: "model",
                 },
               ],
-              attr: "add_cube_OH",
+              // attr: `Left Objects`,
+              attr: `${position} Objects`,
             });
-            // const newObject = getObjectByName(`Model${newAttr["add_cube_OH"].length}`)
+            // const positionModel = getBoundingBox({
+            //   name: `Model${newAttr["add_cube_OH"].length - 1}`,
+            // });
 
-            // setTranslationXYZ(`Model${newAttr["add_cube_OH"].length}`, {x: position.max.x, z: position.max.z})
-            
-            // set
+            if (position === "Left" || position === "Right") {
+              // setTranslationXYZ(
+              //   { name: `Model${newAttr["add_cube_OH"].length}` },
+              //   {
+              //     x: boundingBox.min.x * 2.15,
+              //       // boundingBox.min.x < 1
+              //       //   ? boundingBox.min.x
+              //       //   : boundingBox.min.x * 2.15,
+              //     z: boundingBox.max.z,
+              //   }
+              // );
+              // const translation = getBoundingBox({name: `Model${newAttr["add_cube_OH"].length}`})
+              // points
+              // setTranslationXYZ(
+              //   { id: window.points[window.points.length - 1].id },
+              //   { x: boundingBox.max.x*2, z: boundingBox.max.z }
+              // );
+            }
           }
         }
       },
