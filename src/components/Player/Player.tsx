@@ -9,13 +9,14 @@ declare global {
     threekitPlayer: any;
     player: any;
     configurator: any;
-    points: any
+    points: any,
+    models: string[]
   }
 }
 
 export const THREEKIT_PARAMS = {
   threekitUrl: "https://preview.threekit.com/",
-  authToken: "1d561249-b5d9-479c-b0dc-0fef31ac00d9",
+  authToken: "04e9a89d-0ebb-47d5-9371-5ad35f9305d6",
   assetId: "4daa1759-80a3-4787-a39a-c1239375e742",
   orgId: "d302a225-e475-477c-8f4e-e5834f24148e",
 }
@@ -38,7 +39,7 @@ export const Player = () => {
           authToken: THREEKIT_PARAMS['authToken'],
           el: playerEl.current,
           assetId: THREEKIT_PARAMS['assetId'],
-					// showConfigurator: true,
+					showConfigurator: true,
           
           display: "webgl"
         })

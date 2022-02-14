@@ -78,3 +78,30 @@ export const getBoundingBox = (data: {id?: string, name?: string}) => {
     }
 }
 }
+
+export function addNodeModel(assetId: string, boundingBox: any, rotation: any) {
+	const id = window.player.scene.addNode({
+		id: `Model${Math.random()*100}`,
+		type: "Model",
+		name: `${"Model"}_${assetId}_`+Math.random(),
+		plugs: {
+			Null: [
+				{
+					type: "Model",
+					asset: {
+						assetId,
+					},
+				},
+			],
+			Transform: [
+				{
+					"type": "Transform",
+					"active": true,
+					"translation": boundingBox,
+					"rotation": rotation
+				}
+			]
+		},
+	}, window.player.instanceId)
+	window.models = [...window.models, id]
+}
