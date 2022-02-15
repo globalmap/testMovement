@@ -51,9 +51,7 @@ export const Player = () => {
           window.configurator = await window.player.getConfigurator();
           window.configurator.setConfiguration({"Left Objects": [
             {
-              assetId: "40908f80-f3cb-473b-a771-ef78668ae313",
-              configuration: "",
-              type: "model",
+              assetId: "40908f80-f3cb-473b-a771-ef78668ae313"
             },
           ]})
 
