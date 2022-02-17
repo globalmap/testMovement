@@ -1,13 +1,11 @@
-export const getAttrs = () => {
-	if(window.configurator) {
-		return window.configurator.getAttributes();
-	}
-
-	return []
-}
+import { asset } from "./threekitTypes";
 
 export const getObjectByName = (name: string) => {
 	return window.player.scene.get({from: window.player.instanceId, name})
+}
+
+export const getAttrs = (name: string) => {
+	return window.player.enableApi("player").configurator.configuration[name];
 }
 
 function getTranslation(object: {name?: string, id?: string}) {
@@ -48,14 +46,12 @@ export const getMetadata = (id: string) => {
 }
 
 interface setConfigurationT {
-	data: {
-		assetId: string
-	} | number | string | boolean | any[],
+	data: asset | number | string | boolean | asset[],
 	attr: string
 }
 
 export const setConfiguration = ({data, attr}: setConfigurationT) => {
-	return window.configurator.setConfiguration({[attr]: data})
+	window.configurator.setConfiguration({[attr]: data});
 }
 
 export const getBoundingBox = (data: {id?: string, name?: string}) => {
@@ -76,7 +72,17 @@ export const getBoundingBox = (data: {id?: string, name?: string}) => {
         "y": 0,
         "z": 0
     }
+	}
 }
+
+export const filterAssetsByAssetId = (assetId: string, id: string) => {
+	const asset: asset | undefined = window.player.scene.get({id, plug: "Null", property: "asset"});
+		
+	if(asset && asset.assetId === assetId) {
+		return false;
+	} else {
+		return true
+	}
 }
 
 export function addNodeModel(assetId: string, boundingBox: any) {
@@ -102,9 +108,11 @@ export function addNodeModel(assetId: string, boundingBox: any) {
 			]
 		},
 	}, window.player.instanceId)
-	if (window.models) {
-		window.models = [...window.models, id];
-	} else {
-		window.models = [id];
-	}
+
+	// if (window.models) {
+	// 	window.models = [...window.models, id];
+	// } else {
+	// 	window.models = [id];
+	// }
+	window.models = [...window.models, id];
 }
