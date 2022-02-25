@@ -1,14 +1,67 @@
 import { asset } from "./threekitTypes";
 
-export const getObjectByName = (name: string) => {
-	return window.player.scene.get({from: window.player.instanceId, name})
+export const getObjectById = (id: string) => {
+	return window.player.scene.get({from: window.player.instanceId, id})
+}
+// const activeElement = getObjectById(window.player.selectionSet.ids[0])
+
+const sides = [
+	{sideA: "Top", sideB: "Bottom"},
+	{sideA: "Bottom", sideB: "Top"},
+	{sideA: "Left", sideB: "Right"},
+	{sideA: "Right", sideB: "Left"},
+]
+
+export const filterModelBySide = (models: any[], activePoint: string) => {
+	const findPoint = window.points.find((point: any) => point.id === activePoint);
+
+	function filterMethod(sideA: string, sideB: string) {
+		const filteredModels: any[] = [];
+		if(findPoint.position === sideA) {
+			models.forEach((model: any) => {
+				const parseMetadata = JSON.parse(model.metadata.Positions)
+				let findBottom: any;
+				if(findPoint.type === "Corner") {
+					// if(model.)
+					console.log({model})
+				} else {
+					findBottom = parseMetadata.find((pos: any) => pos === sideB)
+				}
+				
+				if(findBottom) {
+					filteredModels.push(model)
+				}
+			})
+		}
+
+		return filteredModels;
+	}
+
+	if(findPoint) {
+		const filteredModels: any[] = []
+		
+		sides.forEach(({sideA, sideB}) => {
+			filteredModels.push(...filterMethod(sideA, sideB))
+		})
+
+		return filteredModels;
+	}
 }
 
 export const getAttrs = (name: string) => {
-	return window.player.enableApi("player").configurator.configuration[name];
+	return window.configurator.getConfiguration()[name]
 }
 
-function getTranslation(object: {name?: string, id?: string}) {
+export const getAttrValues = (name: string) => {
+	const attrs = window.configurator.getDisplayAttributes();
+	const findAttrs = attrs.find((attr: any) => attr.name === name);
+
+	if(findAttrs) {
+		return findAttrs.values
+	}
+}
+
+export function getTranslation(object: {name?: string, id?: string}) {
   return window.player.scene.get({
     from: window.player.instanceId,
     ...object,
@@ -109,10 +162,7 @@ export function addNodeModel(assetId: string, boundingBox: any) {
 		},
 	}, window.player.instanceId)
 
-	// if (window.models) {
-	// 	window.models = [...window.models, id];
-	// } else {
-	// 	window.models = [id];
-	// }
 	window.models = [...window.models, id];
+
+	return id;
 }

@@ -1,31 +1,6 @@
-import {
-  addNodeModel, getBoundingBox, setConfiguration,
-} from "./threekitFunc";
-import { addItem, deleteItem } from "./threekitUtils";
-export const movementTool = () => {
-  let startPoint = 0;
-  return {
-    active: true,
-    enabled: true,
-    key: "movement",
-    handlers: {
-      drag: (ev: any) => {
-        console.log("drag", ev);
-        return {
-          handle: (ev: any) => {
-            console.log("handle", ev);
-            const newClientX = ev.isTouch
-              ? ev.clientX
-              : ev.originalEvent.clientX;
-          },
-        };
-      },
-    },
-  };
-};
+import { addActivePoint, addActiveModel } from "../../redux/actions/player.actions";
 
-
-export const clickTools = () => {
+export const clickTools = (dispatch: any) => {
   return {
     active: true,
     enabled: true,
@@ -43,12 +18,14 @@ export const clickTools = () => {
 
         for (let node of hierarchy) {
           if (node.name.includes("Plus")) {
-            addItem(node)
+            window.player.selectionSet.set(node.nodeId);
+            dispatch(addActivePoint(node.nodeId))
             break;
           }
 
           if(node.name.includes("Model")) {
-            deleteItem(node)
+            window.player.selectionSet.set(node.nodeId);
+            dispatch(addActiveModel(node.nodeId))
           }
         }
       },

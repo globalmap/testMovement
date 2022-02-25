@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import load3kit from "../../utils/load3kit";
-import { clickTools, movementTool } from "../../utils/threekit/threekitTools";
-import { List } from "../List/List";
+import { clickTools } from "../../utils/threekit/threekitTools";
+import { PlayerLoadSuccess } from "../../redux/actions/player.actions";
+import { useAppDispatch } from "../../utils/hooks";
 
 declare global {
   interface Window {
@@ -16,14 +16,14 @@ declare global {
 
 export const THREEKIT_PARAMS = {
   threekitUrl: "https://preview.threekit.com/",
-  authToken: "04e9a89d-0ebb-47d5-9371-5ad35f9305d6",
+  authToken: "15e739db-c362-4062-83bd-126126e5f303",
   assetId: "4daa1759-80a3-4787-a39a-c1239375e742",
   orgId: "d302a225-e475-477c-8f4e-e5834f24148e",
 }
 
 
 export const Player = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [loaded, setLoaded] = useState(false);
   const [loadState, setLoadedState] = useState(false)
@@ -31,47 +31,35 @@ export const Player = () => {
 
   const init3kit = () => {
     if (!playerEl.current) return false;
-
     if (window.threekitPlayer) {
-
       window
         .threekitPlayer({
           authToken: THREEKIT_PARAMS['authToken'],
           el: playerEl.current,
           assetId: THREEKIT_PARAMS['assetId'],
-					showConfigurator: true,
-          
-          display: "webgl"
         })
         .then(async (api: any) => {
           window.player = api;
-          // await api.when('preloaded');
-          // await window.player.when('loaded');
 
           window.configurator = await window.player.getConfigurator();
           window.configurator.setConfiguration({"Left Objects": [
             {
-              assetId: "40908f80-f3cb-473b-a771-ef78668ae313"
+              assetId: "29ac94f0-e0b2-46ff-8fb3-178c772ac788"
             },
           ]})
-
-					// await window.player.tools.addTool(movementTool());
-					await window.player.tools.addTool(clickTools());
-
-
+					await window.player.tools.addTool(clickTools(dispatch));
+          dispatch(PlayerLoadSuccess())
         });
     }
   };
 
   useEffect(() => {
-    load3kit(null, () => {
-      setLoaded(true);
-      init3kit();
-    });
+    setLoaded(true);
+    init3kit();
   });
 
   return (
-    <div style={{height: "100vh"}}>
+    <div style={{height: "100vh", width: "85%"}}>
       {loaded ? (
         <>
           <div id="player" style={{height: "100vh"}} ref={playerEl} />

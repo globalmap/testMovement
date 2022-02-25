@@ -1,17 +1,25 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import { store } from './redux/store';
 import { Provider } from "react-redux";
-import store from "./store/store";
-import { BrowserRouter as Router } from "react-router-dom";
+
+declare global {
+  interface Window {
+    threekitPlayer: any;
+    player: any;
+    configurator: any;
+    points: any,
+    models: string[]
+  }
+}
 
 ReactDOM.render(
-  <Provider store={store}>
-    <Router>
+  <React.StrictMode>
+    <Provider store={store}>
       <App />
-    </Router>
-  </Provider>,
-  document.getElementById("root")
+    </Provider>
+  </React.StrictMode>,
+  document.getElementById('root')
 );
-
