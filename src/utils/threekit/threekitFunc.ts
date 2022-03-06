@@ -22,12 +22,15 @@ export const filterModelBySide = (models: any[], activePoint: string) => {
 				const parseMetadata = JSON.parse(model.metadata.Positions)
 				let findBottom: any;
 				if(findPoint.type === "Corner") {
-					// if(model.)
-					console.log({model})
-				} else {
-					findBottom = parseMetadata.find((pos: any) => pos === sideB)
+					switch (findPoint.position) {
+						case "Bottom":
+							sideB = "Right"
+							break;
+					}
 				}
-				
+
+				findBottom = parseMetadata.find((pos: any) => pos === sideB)
+
 				if(findBottom) {
 					filteredModels.push(model)
 				}
@@ -138,7 +141,18 @@ export const filterAssetsByAssetId = (assetId: string, id: string) => {
 	}
 }
 
-export function addNodeModel(assetId: string, boundingBox: any) {
+type xyzType = {
+	x: number,
+	y: number,
+	z: number
+}
+
+type boundingBoxType = {
+	max: xyzType,
+	min: xyzType
+}
+
+export function addNodeModel(assetId: string, boundingBox: any, rotate: xyzType) {
 	const id = window.player.scene.addNode({
 		id: `Model${Math.random()*100}`,
 		type: "Model",
@@ -157,6 +171,7 @@ export function addNodeModel(assetId: string, boundingBox: any) {
 					"type": "Transform",
 					"active": true,
 					"translation": boundingBox,
+					"rotation": rotate
 				}
 			]
 		},

@@ -33,6 +33,12 @@ export const addItem = async (
   });
 
   let currentTranslation = { x: 0, y: 0, z: 0 };
+  let rotate = {x: 0, y: 0, z: 0}
+
+  if(type === "Corner") {
+    rotate = {...rotate, y: 90}
+  }
+
   if (position === "Top") {
     currentTranslation = {
       x: boundingBox.min.x,
@@ -93,7 +99,7 @@ export const addItem = async (
     }
   }
 
-  addNodeModel(assetId, currentTranslation);
+  addNodeModel(assetId, currentTranslation, rotate);
 };
 
 export const deleteItem = async (nodeId: string) => {
