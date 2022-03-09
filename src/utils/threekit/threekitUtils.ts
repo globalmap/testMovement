@@ -8,6 +8,25 @@ import {
 } from "./threekitFunc";
 import { asset } from "./threekitTypes";
 
+function moveElements(currentTranslation: any) {
+  // window.models.forEach((model) => {
+  //   // const currentTranslation = getBoundingBox({id: model})
+  //   const findModel = window.models.find((mdl) => mdl !== model && currentTranslation.min.x >= getBoundingBox({id: mdl}).min.x)
+
+  //   if(findModel) {
+  //     console.log("ok")
+  //     setTranslationXYZ({id: findModel}, {x: getBoundingBox({id: findModel}).max.x})
+  //   }
+  // })
+
+  const findModel = window.models.find((mdl) => currentTranslation.x > getBoundingBox({id: mdl}).min.x && currentTranslation.x < getBoundingBox({id: mdl}).max.x)
+
+  if(findModel) {
+    console.log("ok")
+    setTranslationXYZ({id: findModel}, {x: getBoundingBox({id: findModel}).max.x})
+  }
+}
+
 export const addItem = async (
   nodeId: string,
   assetId: string,
@@ -31,6 +50,8 @@ export const addItem = async (
     ],
     attr: `Left Objects`,
   });
+
+
 
   let currentTranslation = { x: 0, y: 0, z: 0 };
   let rotate = {x: 0, y: 0, z: 0}
@@ -98,8 +119,15 @@ export const addItem = async (
       };
     }
   }
-
+  moveElements(currentTranslation)
   addNodeModel(assetId, currentTranslation, rotate);
+// setTimeout(() => {
+//   if(window.models.length > 1) {
+    
+
+//   }
+// }, 500)
+
 };
 
 export const deleteItem = async (nodeId: string) => {
