@@ -37,9 +37,9 @@ export const addItem = async (
   let position = findPoint ? findPoint.position : "";
   const boundingBox = await getBoundingBox({ id: nodeId });
 
-  console.log({type})
+  console.log("test 1", {type})
 
-  const attrs = getAttrs("Left Objects");
+  const attrs = getAttrs("Models");
 
   setConfiguration({
     data: [
@@ -48,10 +48,11 @@ export const addItem = async (
         assetId,
       },
     ],
-    attr: `Left Objects`,
+    attr: `Models`,
   });
 
 
+  console.log("test 2", {type})
 
   let currentTranslation = { x: 0, y: 0, z: 0 };
   let rotate = {x: 0, y: 0, z: 0}
@@ -67,8 +68,9 @@ export const addItem = async (
       z: boundingBox.max.z - 0.5,
     };
   }
+
   if (position === "Right") {
-    currentTranslation = { x: boundingBox.min.x, y: 0, z: boundingBox.max.z };
+    currentTranslation = { x: boundingBox.max.x, y: 0, z: boundingBox.max.z };
   }
   if (position === "Left") {
     currentTranslation = { x: boundingBox.min.x, y: 0, z: boundingBox.min.z };
@@ -81,6 +83,7 @@ export const addItem = async (
       z: boundingBox.max.z + 0.5,
     };
   }
+  console.log("test 3", {type})
 
   if (position === "Right" || position === "Left") {
     if (
@@ -119,7 +122,10 @@ export const addItem = async (
       };
     }
   }
-  moveElements(currentTranslation)
+  console.log("test 4", {type})
+ 
+  // moveElements(currentTranslation)
+
   addNodeModel(assetId, currentTranslation, rotate);
 // setTimeout(() => {
 //   if(window.models.length > 1) {
@@ -134,7 +140,7 @@ export const deleteItem = async (nodeId: string) => {
   if (window.models && window.models.length > 1) {
     console.log(nodeId);
     window.player.scene.deleteNode(nodeId);
-    const attr: asset[] = getAttrs("Left Objects");
+    const attr: asset[] = getAttrs("Models");
 
     window.points = window.points.filter((e: any) => {
       if (e.model === nodeId) {
@@ -148,7 +154,7 @@ export const deleteItem = async (nodeId: string) => {
     window.models.forEach((model, index) => {
       if (model === nodeId) {
         const filterAttr = attr.filter((_, indx) => indx !== index);
-        setConfiguration({ data: filterAttr, attr: "Left Objects" });
+        setConfiguration({ data: filterAttr, attr: "Models" });
       }
     });
     window.models = window.models.filter((id) => id !== nodeId);

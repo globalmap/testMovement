@@ -12,7 +12,7 @@ const { Title, Paragraph } = Typography;
 
 const ListModels = () => {
 	const dispatch = useAppDispatch();
-	const models = getAttrValues("Left Objects")
+	const models = getAttrValues("Models")
 	const activePoint = useAppSelector(getActivePoint);
 
 	if(window.points) {
