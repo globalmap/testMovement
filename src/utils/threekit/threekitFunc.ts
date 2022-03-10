@@ -182,7 +182,7 @@ export async function addNodeModel(assetId: string, boundingBox: any, rotate: xy
 				{
 					type: "Model",
 					asset: {
-						assetId,
+						assetId: "46197fa5-1c35-4e98-857d-1f87cf67182a",
 					},
 				},
 			],

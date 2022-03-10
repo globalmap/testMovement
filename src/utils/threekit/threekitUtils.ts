@@ -37,7 +37,7 @@ export const addItem = async (
   let position = findPoint ? findPoint.position : "";
   const boundingBox = await getBoundingBox({ id: nodeId });
 
-  console.log("test 1", {type})
+  console.log({type})
 
   const attrs = getAttrs("Models");
 
@@ -52,7 +52,6 @@ export const addItem = async (
   });
 
 
-  console.log("test 2", {type})
 
   let currentTranslation = { x: 0, y: 0, z: 0 };
   let rotate = {x: 0, y: 0, z: 0}
@@ -83,7 +82,6 @@ export const addItem = async (
       z: boundingBox.max.z + 0.5,
     };
   }
-  console.log("test 3", {type})
 
   if (position === "Right" || position === "Left") {
     if (
@@ -104,7 +102,7 @@ export const addItem = async (
         x:
           position === "Left"
             ? currentTranslation.x - 0.5
-            : currentTranslation.x + 0.5,
+            : currentTranslation.x ,
         z: currentTranslation.z + 1.5
       };
     }
@@ -122,10 +120,7 @@ export const addItem = async (
       };
     }
   }
-  console.log("test 4", {type})
- 
   // moveElements(currentTranslation)
-
   addNodeModel(assetId, currentTranslation, rotate);
 // setTimeout(() => {
 //   if(window.models.length > 1) {
