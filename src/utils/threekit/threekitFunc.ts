@@ -152,7 +152,27 @@ type boundingBoxType = {
 	min: xyzType
 }
 
-export function addNodeModel(assetId: string, boundingBox: any, rotate: xyzType) {
+	const getRootId = async () => {
+		const api = window.player;
+		let rootSceneId;
+
+		const instanceNode = api.scene.get({ id: api.instanceId });
+
+		if (instanceNode.type === 'Item') {
+			api.enableApi('player');
+			rootSceneId = await api.player.getAssetInstance({
+				id: api.instanceId,
+				plug: 'Proxy',
+				property: 'asset',
+			});
+		} else rootSceneId = api.instanceId; // it is a direct scene asset
+		return api.scene.findNode({ from: rootSceneId, type: 'Objects' });
+	};
+
+export async function addNodeModel(assetId: string, boundingBox: any, rotate: xyzType) {
+	const newID = await getRootId()
+	console.log("test boundingBox", {boundingBox, newID})
+
 	const id = window.player.scene.addNode({
 		id: `Model${Math.random()*100}`,
 		type: "Model",
@@ -175,7 +195,7 @@ export function addNodeModel(assetId: string, boundingBox: any, rotate: xyzType)
 				}
 			]
 		},
-	}, window.player.instanceId)
+	}, newID)
 
 	window.models = [...window.models, id];
 
