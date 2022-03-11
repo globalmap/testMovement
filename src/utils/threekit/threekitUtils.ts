@@ -109,14 +109,16 @@ export const addItem = async (
 
     if (
       name.toLowerCase().includes("unit") ||
-      name.toLowerCase().includes("chair")
+      name.toLowerCase().includes("chair") ||
+      name.toLowerCase().includes("wedge") 
     ) {
       currentTranslation = {
         ...currentTranslation,
         x:
           position === "Left"
             ? currentTranslation.x - 0.5
-            : currentTranslation.x + 0.5,
+            : currentTranslation.x + 0.4,
+        z: currentTranslation.z - 0.05
       };
     }
   }
