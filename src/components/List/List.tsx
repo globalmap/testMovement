@@ -18,7 +18,7 @@ const ListModels = () => {
 	if(window.points) {
 		const filteredModels = filterModelBySide(models, activePoint)
 		const point = window.points.find((point: any) => point.id === activePoint);
-	
+		console.log({filteredModels})
 		return (
 			<div className={s.container}>
 				<div className={s.title}>

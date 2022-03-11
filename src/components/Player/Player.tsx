@@ -48,7 +48,7 @@ export const Player = () => {
           window.configurator.setConfiguration({"Models": [
             {
               // assetId: "29ac94f0-e0b2-46ff-8fb3-178c772ac788"
-              assetId: "81f6461b-00f2-4799-937c-b7f43315d7c7"
+              assetId: "51d2c8e3-0692-4045-9592-3b01b49b07ed"
 
             },
           ]})

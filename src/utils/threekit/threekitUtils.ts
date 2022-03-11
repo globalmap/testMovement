@@ -57,7 +57,7 @@ export const addItem = async (
   let rotate = {x: 0, y: 0, z: 0}
 
   if(type === "Corner") {
-    rotate = {...rotate, y: 90}
+    rotate = {...rotate, y: -90}
   }
 
   if (position === "Top") {
