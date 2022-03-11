@@ -24,7 +24,7 @@ export const filterModelBySide = (models: any[], activePoint: string) => {
 				if(findPoint.type === "Corner") {
 					switch (findPoint.position) {
 						case "Bottom":
-							sideB = "Right"
+							sideB = "Left"
 							break;
 					}
 				}
@@ -200,4 +200,132 @@ export async function addNodeModel(assetId: string, boundingBox: any, rotate: xy
 	window.models = [...window.models, id];
 
 	return id;
+}
+
+
+export function generateTranslation(position: string, name: string, currentTranslation: xyzType, type: string) {
+	if (position === "Right" || position === "Left") {
+    if (
+      name.toLowerCase().includes("loveseat")
+    ) {
+      currentTranslation = {
+        ...currentTranslation,
+        x:
+          position === "Left"
+            ? currentTranslation.x - 0.8
+            : currentTranslation.x + 0.8,
+        z: currentTranslation.z + 0.45
+      };
+    }
+
+    if(name.toLowerCase().includes("sofa")) {
+      currentTranslation = {
+        ...currentTranslation,
+        x:
+          position === "Left"
+            ? currentTranslation.x - 0.95
+            : currentTranslation.x + 0.95,
+        z: currentTranslation.z + 0.45
+      };
+    }
+
+    if(name.toLowerCase().includes("chaise")) {
+      currentTranslation = {
+        ...currentTranslation,
+        x:
+          position === "Left"
+            ? currentTranslation.x - 0.5
+            : currentTranslation.x ,
+        z: currentTranslation.z + 1.5
+      };
+    }
+
+    if (
+      name.toLowerCase().includes("unit")
+    ) {
+      currentTranslation = {
+        ...currentTranslation,
+        x:
+          position === "Left"
+            ? currentTranslation.x - 0.5
+            : currentTranslation.x + 0.4,
+        z: currentTranslation.z + 0.45
+      };
+    }
+
+    if(name.toLowerCase().includes("chair")) {
+      currentTranslation = {
+        ...currentTranslation,
+        x:
+          position === "Left"
+            ? currentTranslation.x - 0.5
+            : currentTranslation.x + 0.3,
+        z: currentTranslation.z + 0.45
+      };
+    }
+
+    if(name.toLowerCase().includes("raf chair")) {
+      currentTranslation = {
+        ...currentTranslation,
+        x: currentTranslation.x + 0.1,
+        z: currentTranslation.z - 0.5
+      };
+    }
+
+    if (name.toLowerCase().includes("wedge")) {
+      currentTranslation = {
+        ...currentTranslation,
+        x:
+          position === "Left"
+            ? currentTranslation.x - 0.5
+            : currentTranslation.x + 0.6,
+        z: currentTranslation.z + 0.73
+      };
+    }
+  }
+
+  if(type === "Corner") {
+    if (
+      name.toLowerCase().includes("loveseat") ||
+			name.toLowerCase().includes("sofa")
+    ) {
+      currentTranslation = {
+        ...currentTranslation,
+        x: currentTranslation.x - 0.45,
+        z: currentTranslation.z + 0.3
+      };
+    }
+
+    if(name.toLowerCase().includes("chaise")) {
+
+    }
+
+    if (
+      name.toLowerCase().includes("wedge")
+    ) {
+			currentTranslation = {
+        ...currentTranslation,
+        x: currentTranslation.x - 0.7,
+        z: currentTranslation.z + 0.12
+      };
+    }
+
+    if(name.toLowerCase().includes("unit")) {
+			currentTranslation = {
+        ...currentTranslation,
+        x: currentTranslation.x - 0.45,
+        z: currentTranslation.z - 0.05
+      };
+    }
+
+    if(name.toLowerCase().includes("raf chair")) {
+			currentTranslation = {
+        ...currentTranslation,
+        x: currentTranslation.x + 0.05,
+        z: currentTranslation.z - 0.1
+      };
+    }
+  }
+
+	return currentTranslation;
 }

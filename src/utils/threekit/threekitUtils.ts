@@ -5,6 +5,7 @@ import {
   getAttrs,
   getTranslation,
   setTranslationXYZ,
+  generateTranslation,
 } from "./threekitFunc";
 import { asset } from "./threekitTypes";
 
@@ -83,85 +84,7 @@ export const addItem = async (
     };
   }
 
-  if (position === "Right" || position === "Left") {
-    if (
-      name.toLowerCase().includes("loveseat")
-    ) {
-      currentTranslation = {
-        ...currentTranslation,
-        x:
-          position === "Left"
-            ? currentTranslation.x - 0.8
-            : currentTranslation.x + 0.8,
-        z: currentTranslation.z + 0.45
-      };
-    }
-
-    if(name.toLowerCase().includes("sofa")) {
-      currentTranslation = {
-        ...currentTranslation,
-        x:
-          position === "Left"
-            ? currentTranslation.x - 0.95
-            : currentTranslation.x + 0.95,
-        z: currentTranslation.z + 0.45
-      };
-    }
-
-    if(name.toLowerCase().includes("chaise")) {
-      currentTranslation = {
-        ...currentTranslation,
-        x:
-          position === "Left"
-            ? currentTranslation.x - 0.5
-            : currentTranslation.x ,
-        z: currentTranslation.z + 1.5
-      };
-    }
-
-    if (
-      name.toLowerCase().includes("unit")
-    ) {
-      currentTranslation = {
-        ...currentTranslation,
-        x:
-          position === "Left"
-            ? currentTranslation.x - 0.5
-            : currentTranslation.x + 0.4,
-        z: currentTranslation.z + 0.45
-      };
-    }
-
-    if(name.toLowerCase().includes("chair")) {
-      currentTranslation = {
-        ...currentTranslation,
-        x:
-          position === "Left"
-            ? currentTranslation.x - 0.5
-            : currentTranslation.x + 0.3,
-        z: currentTranslation.z + 0.45
-      };
-    }
-
-    if(name.toLowerCase().includes("raf chair")) {
-      currentTranslation = {
-        ...currentTranslation,
-        x: currentTranslation.x + 0.1,
-        z: currentTranslation.z - 0.5
-      };
-    }
-
-    if (name.toLowerCase().includes("wedge")) {
-      currentTranslation = {
-        ...currentTranslation,
-        x:
-          position === "Left"
-            ? currentTranslation.x - 0.5
-            : currentTranslation.x + 0.6,
-        z: currentTranslation.z + 0.73
-      };
-    }
-  }
+  currentTranslation = generateTranslation(position, name, currentTranslation, type)
   // moveElements(currentTranslation)
   addNodeModel(assetId, currentTranslation, rotate);
 // setTimeout(() => {
