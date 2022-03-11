@@ -3,6 +3,34 @@ import { asset } from "./threekitTypes";
 export const getObjectById = (id: string) => {
 	return window.player.scene.get({from: window.player.instanceId, id})
 }
+
+export function findCorner() {
+	const models = window.models;
+	let state = false;
+	const corners: any[] = []
+
+	models.forEach((id) => {
+			const model = window.player.scene.get({ id, plug: "Null", property: "asset" });
+
+			if (model) {
+					const asset = window.player.scene.get({ id: model.assetId })
+					console.log('asset', asset);
+
+					console.log({ asset })
+
+					const type = asset.configurator.metadata.find(((e: any) => e.name === "Type" && e.defaultValue === "Corner"));
+					if (type && !state) {
+							state = true
+					}
+
+					if(type) {
+						corners.push(type)
+					}
+			}
+	})
+
+	return corners;
+}
 // const activeElement = getObjectById(window.player.selectionSet.ids[0])
 
 const sides = [
@@ -14,6 +42,7 @@ const sides = [
 
 export const filterModelBySide = (models: any[], activePoint: string) => {
 	const findPoint = window.points.find((point: any) => point.id === activePoint);
+	const corner = findCorner()
 
 	function filterMethod(sideA: string, sideB: string) {
 		const filteredModels: any[] = [];
@@ -21,16 +50,15 @@ export const filterModelBySide = (models: any[], activePoint: string) => {
 			models.forEach((model: any) => {
 				const parseMetadata = JSON.parse(model.metadata.Positions)
 				let findBottom: any;
-				if(findPoint.type === "Corner") {
+				if(corner && corner.length <= 1) {
 					switch (findPoint.position) {
 						case "Bottom":
 							sideB = "Left"
 							break;
 					}
 				}
-
 				findBottom = parseMetadata.find((pos: any) => pos === sideB)
-
+				console.log({sideA, sideB, activePoint, models})
 				if(findBottom) {
 					filteredModels.push(model)
 				}
@@ -203,7 +231,7 @@ export async function addNodeModel(assetId: string, boundingBox: any, rotate: xy
 }
 
 
-export function generateTranslation(position: string, name: string, currentTranslation: xyzType, type: string) {
+export function generateTranslation(position: string, name: string, currentTranslation: xyzType, type: string, corner: any[]) {
 	if (position === "Right" || position === "Left") {
     if (
       name.toLowerCase().includes("loveseat")

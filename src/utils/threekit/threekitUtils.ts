@@ -6,6 +6,7 @@ import {
   getTranslation,
   setTranslationXYZ,
   generateTranslation,
+  findCorner,
 } from "./threekitFunc";
 import { asset } from "./threekitTypes";
 
@@ -38,7 +39,9 @@ export const addItem = async (
   let position = findPoint ? findPoint.position : "";
   const boundingBox = await getBoundingBox({ id: nodeId });
 
-  console.log({type})
+  const corner = findCorner();
+
+  type = corner.length > 0 ? "Corner" : type
 
   const attrs = getAttrs("Models");
 
@@ -59,6 +62,10 @@ export const addItem = async (
 
   if(type === "Corner") {
     rotate = {...rotate, y: -90}
+
+    // if(corner.length > 1) {
+    //   rotate = {...rotate, y: -180}
+    // }
   }
 
   if (position === "Top") {
@@ -84,7 +91,7 @@ export const addItem = async (
     };
   }
 
-  currentTranslation = generateTranslation(position, name, currentTranslation, type)
+  currentTranslation = generateTranslation(position, name, currentTranslation, type, corner)
   // moveElements(currentTranslation)
   addNodeModel(assetId, currentTranslation, rotate);
 // setTimeout(() => {
