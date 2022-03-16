@@ -1,0 +1,12 @@
+.container {
+  width: 23%;
+  
+  .listItem {
+    cursor: pointer;
+    text-transform: uppercase;
+    &:hover {
+      background-color: #d6caca;
+    }
+  }
+}
+
